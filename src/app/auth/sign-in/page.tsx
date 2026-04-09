@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createClient } from "@/lib/supabase/client";
@@ -18,6 +19,12 @@ export default function SignInPage() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const router = useRouter();
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  const logoSrc = mounted && resolvedTheme === "light" ? "/svg (1).svg" : "/svg.svg";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -73,7 +80,7 @@ export default function SignInPage() {
 
         <div className="relative z-10 flex flex-col items-center text-center max-w-sm">
           <Image
-            src="/svg.svg"
+            src={logoSrc}
             alt="BridgeLeads"
             width={72}
             height={72}
@@ -128,7 +135,7 @@ export default function SignInPage() {
           <div className="text-center mb-8 sm:mb-10">
             <Link href="/" className="lg:hidden inline-flex items-center justify-center mb-6">
               <Image
-                src="/svg.svg"
+                src={logoSrc}
                 alt="BridgeLeads"
                 width={48}
                 height={48}

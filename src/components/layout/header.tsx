@@ -4,7 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Camera, LayoutDashboard, Settings, LogOut, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -19,6 +20,12 @@ export function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  const logoSrc = mounted && resolvedTheme === "light" ? "/svg (1).svg" : "/svg.svg";
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -32,7 +39,7 @@ export function Header() {
         <div className="flex items-center justify-between h-full px-4 max-w-7xl mx-auto">
           <Link href="/dashboard" className="flex items-center">
             <Image
-              src="/svg.svg"
+              src={logoSrc}
               alt="BridgeLeads"
               width={120}
               height={40}
