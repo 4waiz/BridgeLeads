@@ -41,11 +41,10 @@ export default async function DashboardPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { label: "Total", value: stats.total, color: "text-text" },
             { label: "New", value: stats.new, color: "text-brand" },
-            { label: "Reviewed", value: stats.reviewed, color: "text-text-muted" },
             { label: "Contacted", value: stats.contacted, color: "text-warning" },
             { label: "Qualified", value: stats.qualified, color: "text-success" },
           ].map((stat) => (

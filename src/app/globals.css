@@ -2,20 +2,20 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-bg: #050507;
-  --color-bg-elevated: #0c0d12;
-  --color-panel: #0e1018;
-  --color-panel-2: #141620;
-  --color-border: #1e2230;
-  --color-text: #ffffff;
-  --color-text-muted: #8a90a0;
-  --color-brand: #f36a21;
-  --color-brand-strong: #ff7b2f;
-  --color-brand-soft: rgba(243, 106, 33, 0.12);
-  --color-success: #22c55e;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
-  --color-ring: rgba(243, 106, 33, 0.35);
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-brand-soft: var(--brand-soft);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-ring: var(--ring);
 
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
@@ -37,6 +37,23 @@
   --ring: rgba(243, 106, 33, 0.35);
 }
 
+.light {
+  --bg: #f5f5f7;
+  --bg-elevated: #ffffff;
+  --panel: #ffffff;
+  --panel-2: #f0f0f2;
+  --border: #e0e0e5;
+  --text: #1a1a1a;
+  --text-muted: #6b7280;
+  --brand: #f36a21;
+  --brand-strong: #e55d15;
+  --brand-soft: rgba(243, 106, 33, 0.1);
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+  --ring: rgba(243, 106, 33, 0.3);
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -46,6 +63,10 @@
 
   html {
     color-scheme: dark;
+  }
+
+  html.light {
+    color-scheme: light;
   }
 
   body {

@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { AppShell } from "@/components/layout/app-shell";
-import { CheckCircle, XCircle, Palette } from "lucide-react";
+import { CheckCircle, XCircle, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 import { createClient } from "@/lib/supabase/client";
 
 interface StatusItem {
@@ -12,6 +13,8 @@ interface StatusItem {
 }
 
 export default function SettingsPage() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [statuses, setStatuses] = useState<StatusItem[]>([
     { label: "Supabase", status: "unknown" },
     { label: "OCR Provider", status: "unknown" },
@@ -66,16 +69,9 @@ export default function SettingsPage() {
     checkStatus();
   }, []);
 
-  const brandTokens = [
-    { name: "--bg", value: "#07090d", label: "Background" },
-    { name: "--bg-elevated", value: "#11151d", label: "Elevated" },
-    { name: "--panel", value: "#121722", label: "Panel" },
-    { name: "--brand", value: "#f36a21", label: "Brand" },
-    { name: "--brand-strong", value: "#ff7b2f", label: "Brand Strong" },
-    { name: "--success", value: "#22c55e", label: "Success" },
-    { name: "--warning", value: "#f59e0b", label: "Warning" },
-    { name: "--danger", value: "#ef4444", label: "Danger" },
-  ];
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <AppShell>
@@ -85,6 +81,37 @@ export default function SettingsPage() {
           <p className="text-text-muted mt-1">
             System status and configuration
           </p>
+        </div>
+
+        {/* Appearance */}
+        <div className="rounded-2xl border border-border bg-panel p-5 space-y-4">
+          <h2 className="font-semibold text-lg">Appearance</h2>
+          {mounted && (
+            <div className="flex gap-3">
+              <button
+                onClick={() => setTheme("light")}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
+                  theme === "light"
+                    ? "border-brand bg-brand-soft text-brand"
+                    : "border-border bg-panel-2 text-text-muted hover:text-text"
+                }`}
+              >
+                <Sun className="h-4 w-4" />
+                Light
+              </button>
+              <button
+                onClick={() => setTheme("dark")}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
+                  theme === "dark"
+                    ? "border-brand bg-brand-soft text-brand"
+                    : "border-border bg-panel-2 text-text-muted hover:text-text"
+                }`}
+              >
+                <Moon className="h-4 w-4" />
+                Dark
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Connectivity */}
@@ -114,44 +141,6 @@ export default function SettingsPage() {
           </div>
         </div>
 
-        {/* Brand tokens */}
-        <div className="rounded-2xl border border-border bg-panel p-5 space-y-4">
-          <h2 className="font-semibold text-lg flex items-center gap-2">
-            <Palette className="h-5 w-5 text-text-muted" />
-            Brand Tokens
-          </h2>
-          <p className="text-sm text-text-muted">
-            Edit{" "}
-            <code className="text-xs bg-panel-2 px-1.5 py-0.5 rounded">
-              src/app/globals.css
-            </code>{" "}
-            to change these colors globally.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {brandTokens.map((token) => (
-              <div key={token.name} className="space-y-1.5">
-                <div
-                  className="h-12 rounded-lg border border-border"
-                  style={{ backgroundColor: token.value }}
-                />
-                <p className="text-xs font-medium">{token.label}</p>
-                <p className="text-xs text-text-muted font-mono">
-                  {token.value}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Export preferences */}
-        <div className="rounded-2xl border border-border bg-panel p-5 space-y-4">
-          <h2 className="font-semibold text-lg">Export</h2>
-          <p className="text-sm text-text-muted">
-            Exports are generated as .xlsx Excel files with header row frozen and
-            auto-sized columns. Navigate to the Leads page and click &quot;Export
-            Excel&quot; to download your current filtered view.
-          </p>
-        </div>
       </div>
     </AppShell>
   );
